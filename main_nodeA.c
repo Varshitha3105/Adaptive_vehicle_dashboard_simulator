@@ -94,7 +94,7 @@
  94 /* Pack five data bytes */
  95 
  96 tx.byteA = ((unsigned int)speed & 0xFF)
- 97          | (((unsigned int)temperature & 0xFF) << 8)
+ 97          | (((unsigned int)temperature & 0x1F) << 8)
  98          | (((unsigned int)Left_indicator & 0x01) << 14)
  99          | (((unsigned int)Right_indicator & 0x01) << 15)
 100                  | (((unsigned int)ultrasonic_read()& 0x3ff)<<18)
