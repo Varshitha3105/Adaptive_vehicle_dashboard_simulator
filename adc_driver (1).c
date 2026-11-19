@@ -1,20 +1,22 @@
-#include<lpc21xx.h>
-#define DONE ((ADDR >> 31)&1)
-   void adc_init()
-   {
-           PINSEL0|=0x15400000;
-           ADCR=0x00200400;
-   }
-   unsigned int adc_read(unsigned int ch_num)
-   {
-          unsigned int result=0;
-          ADCR|=1<<ch_num;
-          ADCR|=1<<24;
-          while(DONE==0);
-          ADCR^=1<<24;
-          ADCR^=1<<ch_num;
-          result=(ADDR>>6)&0x3ff;
-          return result;
-          //return 693;
-  }
+#include"header.h"
 
+void adc_init(void){
+	const int a[5]={4,19,9,4,4};
+	u32 cclk=0;
+	cclk=a[VPBDIV];
+	PINSEL1|=0X15400000;
+	ADCR=0X00200000 | (cclk<<8);
+		
+}
+
+#define DONE ((ADDR>>31)&1)
+u32 adc_read(u8 ch_num){
+	u32 result=0;
+	ADCR|=(1<<ch_num);
+	ADCR|=(1<<24);	
+	while(DONE==0);
+	ADCR^=(1<<24);
+	ADCR^=(1<<ch_num);
+	result=((ADDR>>6)&0x3FF);
+	return result;
+}
